@@ -56,7 +56,9 @@ void MainWindow::on_closePortBtn_clicked()
 {
     if (isSerialConnected) {
         usbDevice->close();
+        isSerialConnected = false;
         qDebug() << "Disconnected";
+
     }
     else {
         QMessageBox msg;
