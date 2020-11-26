@@ -17,6 +17,7 @@ HEADERS += \
 
 FORMS += \
     mainwindow.ui
+QT += serialport
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

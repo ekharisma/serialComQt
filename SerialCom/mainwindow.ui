@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>377</width>
-    <height>232</height>
+    <height>258</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,7 +34,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="openPort">
+   <widget class="QPushButton" name="openPortBtn">
     <property name="geometry">
      <rect>
       <x>200</x>
@@ -73,7 +73,7 @@
      <string>Pesan</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="closePort">
+   <widget class="QPushButton" name="closePortBtn">
     <property name="geometry">
      <rect>
       <x>290</x>
@@ -84,6 +84,19 @@
     </property>
     <property name="text">
      <string>Close Port</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="sendBtn">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>180</y>
+      <width>80</width>
+      <height>26</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Kirim</string>
     </property>
    </widget>
   </widget>

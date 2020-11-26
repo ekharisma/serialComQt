@@ -14,10 +14,10 @@ EQ            = =
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_QML_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_SERIALPORT_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../SerialCom -I. -I/home/kayugasan/Qt/5.15.0/gcc_64/include -I/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui -I/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/linux-g++
+INCPATH       = -I../SerialCom -I. -I/home/kayugasan/Qt/5.15.0/gcc_64/include -I/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui -I/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort -I/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I. -I/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/linux-g++
 QMAKE         = /home/kayugasan/Qt/5.15.0/gcc_64/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -40,7 +40,7 @@ DISTNAME      = SerialCom1.0.0
 DISTDIR = /home/kayugasan/Desktop/Kuliah/Sistem\ Pengaturan\ Komputer/Serial\ Communication/build-SerialCom-Desktop_Qt_5_15_0_GCC_64bit-Debug/.tmp/SerialCom1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/home/kayugasan/Qt/5.15.0/gcc_64/lib
-LIBS          = $(SUBLIBS) /home/kayugasan/Qt/5.15.0/gcc_64/lib/libQt5Widgets.so /home/kayugasan/Qt/5.15.0/gcc_64/lib/libQt5Gui.so /home/kayugasan/Qt/5.15.0/gcc_64/lib/libQt5Core.so -lGL -lpthread   
+LIBS          = $(SUBLIBS) /home/kayugasan/Qt/5.15.0/gcc_64/lib/libQt5Widgets.so /home/kayugasan/Qt/5.15.0/gcc_64/lib/libQt5Gui.so /home/kayugasan/Qt/5.15.0/gcc_64/lib/libQt5SerialPort.so /home/kayugasan/Qt/5.15.0/gcc_64/lib/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -247,6 +247,7 @@ DIST          = /home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/spec_pre.prf \
 		/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/qt_config.prf \
 		/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/spec_post.prf \
+		../SerialCom/.qmake.stash \
 		/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/toolchain.prf \
 		/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/default_pre.prf \
@@ -470,6 +471,7 @@ Makefile: ../SerialCom/SerialCom.pro /home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/li
 		/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/qt_config.prf \
 		/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/linux-g++/qmake.conf \
 		/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/exclusive_builds.prf \
 		/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/toolchain.prf \
 		/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/default_pre.prf \
@@ -682,6 +684,7 @@ Makefile: ../SerialCom/SerialCom.pro /home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/li
 /home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/qt_config.prf:
 /home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/linux-g++/qmake.conf:
 /home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/exclusive_builds.prf:
 /home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/toolchain.prf:
 /home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/features/default_pre.prf:
@@ -862,9 +865,12 @@ moc_mainwindow.cpp: ../SerialCom/mainwindow.h \
 		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qicon.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort/QSerialPort \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort/qserialport.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort/qserialportglobal.h \
 		moc_predefs.h \
 		/home/kayugasan/Qt/5.15.0/gcc_64/bin/moc
-	/home/kayugasan/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include '/home/kayugasan/Desktop/Kuliah/Sistem Pengaturan Komputer/Serial Communication/build-SerialCom-Desktop_Qt_5_15_0_GCC_64bit-Debug/moc_predefs.h' -I/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I'/home/kayugasan/Desktop/Kuliah/Sistem Pengaturan Komputer/Serial Communication/SerialCom' -I/home/kayugasan/Qt/5.15.0/gcc_64/include -I/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui -I/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/c++/10/x86_64-suse-linux -I/usr/include/c++/10/backward -I/usr/lib64/gcc/x86_64-suse-linux/10/include -I/usr/local/include -I/usr/lib64/gcc/x86_64-suse-linux/10/include-fixed -I/usr/x86_64-suse-linux/include -I/usr/include ../SerialCom/mainwindow.h -o moc_mainwindow.cpp
+	/home/kayugasan/Qt/5.15.0/gcc_64/bin/moc $(DEFINES) --include '/home/kayugasan/Desktop/Kuliah/Sistem Pengaturan Komputer/Serial Communication/build-SerialCom-Desktop_Qt_5_15_0_GCC_64bit-Debug/moc_predefs.h' -I/home/kayugasan/Qt/5.15.0/gcc_64/mkspecs/linux-g++ -I'/home/kayugasan/Desktop/Kuliah/Sistem Pengaturan Komputer/Serial Communication/SerialCom' -I/home/kayugasan/Qt/5.15.0/gcc_64/include -I/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets -I/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui -I/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort -I/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore -I. -I/usr/include/c++/10 -I/usr/include/c++/10/x86_64-suse-linux -I/usr/include/c++/10/backward -I/usr/lib64/gcc/x86_64-suse-linux/10/include -I/usr/local/include -I/usr/lib64/gcc/x86_64-suse-linux/10/include-fixed -I/usr/x86_64-suse-linux/include -I/usr/include ../SerialCom/mainwindow.h -o moc_mainwindow.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -994,6 +1000,9 @@ main.o: ../SerialCom/main.cpp ../SerialCom/mainwindow.h \
 		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qicon.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort/QSerialPort \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort/qserialport.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort/qserialportglobal.h \
 		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
 		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
 		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
@@ -1110,7 +1119,190 @@ mainwindow.o: ../SerialCom/mainwindow.cpp ../SerialCom/mainwindow.h \
 		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qtabwidget.h \
 		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qicon.h \
-		ui_mainwindow.h
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort/QSerialPort \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort/qserialport.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort/qserialportglobal.h \
+		ui_mainwindow.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/QVariant \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/QApplication \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qapplication.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qcoreapplication.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qeventloop.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qguiapplication.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qinputmethod.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/QComboBox \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qcombobox.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qabstractitemdelegate.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qstyleoption.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qabstractspinbox.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qvalidator.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qregularexpression.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qslider.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qabstractslider.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qstyle.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qtabbar.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qrubberband.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qframe.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qabstractitemmodel.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/QLabel \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qlabel.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/QMenuBar \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qmenubar.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qmenu.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qaction.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qactiongroup.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/QPlainTextEdit \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qplaintextedit.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qtextedit.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qabstractscrollarea.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qtextdocument.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qtextoption.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qtextcursor.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qtextformat.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qpen.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qabstracttextdocumentlayout.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qtextlayout.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qglyphrun.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qrawfont.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtGui/qfontdatabase.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/QPushButton \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qpushbutton.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/QStatusBar \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qstatusbar.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/QWidget \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort/QtSerialPort \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort/QtSerialPortDepends \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/QtCore \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/QtCoreDepends \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qabstractanimation.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qabstracteventdispatcher.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qabstractnativeeventfilter.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qabstractproxymodel.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qabstractstate.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qabstracttransition.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qanimationgroup.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qarraydataops.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qarraydatapointer.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qbasictimer.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qbitarray.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qbuffer.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qbytearraymatcher.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qcache.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qcalendar.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qcborarray.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qcborvalue.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qdatetime.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qcborcommon.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/quuid.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qcbormap.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qcborstream.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qcborstreamreader.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qfloat16.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qcborstreamwriter.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qcollator.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qcommandlineoption.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qcommandlineparser.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qconcatenatetablesproxymodel.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qcryptographichash.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qdeadlinetimer.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qelapsedtimer.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qdir.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qfileinfo.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qdiriterator.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qeasingcurve.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qendian.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qeventtransition.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qexception.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qfactoryinterface.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qfileselector.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/QObject \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/QStringList \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qfilesystemwatcher.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qfinalstate.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qfuture.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qfutureinterface.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qrunnable.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qresultstore.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qfuturesynchronizer.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qfuturewatcher.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qhistorystate.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qidentityproxymodel.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qisenum.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qitemselectionmodel.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qjsonarray.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qjsondocument.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qjsonobject.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qlibrary.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qlibraryinfo.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qversionnumber.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qlinkedlist.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qlockfile.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qloggingcategory.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qmath.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qmessageauthenticationcode.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qmetaobject.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qmimedata.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qmimedatabase.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qmimetype.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qobjectcleanuphandler.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qoperatingsystemversion.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qparallelanimationgroup.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qpauseanimation.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qplugin.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qpointer.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qpluginloader.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qprocess.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qpropertyanimation.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qvariantanimation.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qqueue.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qrandom.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qreadwritelock.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qresource.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qsavefile.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qscopedvaluerollback.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qscopeguard.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qsemaphore.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qsequentialanimationgroup.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qsettings.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qsharedmemory.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qsignalmapper.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qsignaltransition.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qsocketnotifier.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qsortfilterproxymodel.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qstack.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qstandardpaths.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qstate.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qstatemachine.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qstorageinfo.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qstringlistmodel.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qsystemsemaphore.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qtemporarydir.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qtemporaryfile.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qtextboundaryfinder.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qtextcodec.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qthread.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qthreadpool.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qthreadstorage.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qtimeline.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qtimer.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qtimezone.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qtranslator.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qtransposeproxymodel.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qtypetraits.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qwaitcondition.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/QDeadlineTimer \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qwineventnotifier.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qxmlstream.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtCore/qtcoreversion.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort/qserialportinfo.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort/qtserialportversion.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtSerialPort/QSerialPortInfo \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/QMessageBox \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qmessagebox.h \
+		/home/kayugasan/Qt/5.15.0/gcc_64/include/QtWidgets/qdialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../SerialCom/mainwindow.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
