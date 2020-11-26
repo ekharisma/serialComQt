@@ -68,5 +68,6 @@ void MainWindow::on_closePortBtn_clicked()
 
 void MainWindow::on_sendBtn_clicked()
 {
-
+    QString message = ui->message->toPlainText();
+    qDebug() << "Pesan : " << message;
 }
