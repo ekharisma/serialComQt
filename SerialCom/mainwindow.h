@@ -26,6 +26,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
      QSerialPort *usbDevice;
+     QSerialPortInfo *usbInfo;
      bool isSerialConnected = false;
+     QString portName = "";
 };
 #endif // MAINWINDOW_H

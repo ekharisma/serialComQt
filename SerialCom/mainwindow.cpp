@@ -11,6 +11,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     usbDevice = new QSerialPort(this);
+    QSerialPortInfo info;
+//    qDebug() << "Port info : " << info.;
+    Q_FOREACH(info, QSerialPortInfo::availablePorts()) {
+        ui->comPort->addItem(info.portName());
+        portName = info.portName();
+    }
 }
 
 MainWindow::~MainWindow()
@@ -22,7 +28,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_openPortBtn_clicked()
 {
     if (!isSerialConnected) {
-        usbDevice->setPortName("/dev/ttyUSB0");
+        usbDevice->setPortName(portName);
         if (usbDevice->open(QIODevice::ReadWrite)) {
             if(!usbDevice->setBaudRate(QSerialPort::Baud9600))        //Depends on your boud-rate on the Device
                 qDebug()<<usbDevice->errorString();
@@ -70,4 +76,6 @@ void MainWindow::on_sendBtn_clicked()
 {
     QString message = ui->message->toPlainText();
     qDebug() << "Pesan : " << message;
+    usbDevice->write(message.toLocal8Bit());
+    qDebug() << "Pesan cvt " << message.toLocal8Bit();
 }
