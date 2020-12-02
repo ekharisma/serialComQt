@@ -23,11 +23,16 @@ private slots:
 
     void on_sendBtn_clicked();
 
+    void isSerialDataAvailable();
+
 private:
     Ui::MainWindow *ui;
      QSerialPort *usbDevice;
      QSerialPortInfo *usbInfo;
      bool isSerialConnected = false;
      QString portName = "";
+     QString stringBuffer = "";
+
+     void readFromSerial();
 };
 #endif // MAINWINDOW_H

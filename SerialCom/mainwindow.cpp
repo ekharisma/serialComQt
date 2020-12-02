@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
         ui->comPort->addItem(info.portName());
         portName = info.portName();
     }
+    connect(usbDevice, SIGNAL(readyRead()), this, SLOT(isSerialDataAvailable()));
 }
 
 MainWindow::~MainWindow()
@@ -24,6 +25,19 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::readFromSerial(){
+    stringBuffer += usbDevice->readLine();
+    qDebug() << "String buffer : " << stringBuffer ;
+}
+
+void MainWindow::isSerialDataAvailable() {
+    readFromSerial();
+    if (stringBuffer.indexOf('\n') != -1) {
+        qDebug() << "Message from arduino : " << stringBuffer;
+        ui->message->setPlainText(stringBuffer);
+        stringBuffer = "";
+    }
+}
 
 void MainWindow::on_openPortBtn_clicked()
 {
@@ -46,6 +60,7 @@ void MainWindow::on_openPortBtn_clicked()
                 qDebug()<<usbDevice->errorString();
             isSerialConnected = true;
             qDebug() << "Connected";
+            readFromSerial();
         } else {
             QMessageBox msg;
             msg.setText(usbDevice->errorString());

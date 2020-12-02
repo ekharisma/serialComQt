@@ -42,7 +42,7 @@
 
 // include the library code:
 #include <LiquidCrystal.h>
-
+int i = 0;
 
 // initialize the library by associating any needed LCD interface pin
 // with the arduino pin number it is connected to
@@ -67,5 +67,6 @@ void loop() {
   }
   lcd.setCursor(0, 1);
   // print the number of seconds since reset:
-  lcd.print(millis() / 1000);
+  Serial.println(i++);
+  delay(1000);
 }
