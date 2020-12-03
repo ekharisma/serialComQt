@@ -83,9 +83,9 @@ public:
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "MainWindow", nullptr));
         openPortBtn->setText(QCoreApplication::translate("MainWindow", "Open Port", nullptr));
         label->setText(QCoreApplication::translate("MainWindow", "COM PORT", nullptr));
-        label_3->setText(QCoreApplication::translate("MainWindow", "Pesan", nullptr));
+        label_3->setText(QCoreApplication::translate("MainWindow", "Message", nullptr));
         closePortBtn->setText(QCoreApplication::translate("MainWindow", "Close Port", nullptr));
-        sendBtn->setText(QCoreApplication::translate("MainWindow", "Kirim", nullptr));
+        sendBtn->setText(QCoreApplication::translate("MainWindow", "Send", nullptr));
     } // retranslateUi
 
 };

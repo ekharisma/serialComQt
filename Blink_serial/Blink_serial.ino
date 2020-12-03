@@ -65,8 +65,4 @@ void loop() {
     lcd.setCursor(0,0);
     lcd.print(message);
   }
-  lcd.setCursor(0, 1);
-  // print the number of seconds since reset:
-  Serial.println(i++);
-  delay(1000);
 }

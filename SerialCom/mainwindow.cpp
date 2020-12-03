@@ -34,7 +34,8 @@ void MainWindow::isSerialDataAvailable() {
     readFromSerial();
     if (stringBuffer.indexOf('\n') != -1) {
         qDebug() << "Message from arduino : " << stringBuffer;
-        ui->message->setPlainText(stringBuffer);
+        QChar parsedMessage = stringBuffer[2];
+        ui->message->setPlainText(parsedMessage);
         stringBuffer = "";
     }
 }
@@ -44,7 +45,7 @@ void MainWindow::on_openPortBtn_clicked()
     if (!isSerialConnected) {
         usbDevice->setPortName(portName);
         if (usbDevice->open(QIODevice::ReadWrite)) {
-            if(!usbDevice->setBaudRate(QSerialPort::Baud9600))        //Depends on your boud-rate on the Device
+            if(!usbDevice->setBaudRate(QSerialPort::Baud9600))
                 qDebug()<<usbDevice->errorString();
 
             if(!usbDevice->setDataBits(QSerialPort::Data8))

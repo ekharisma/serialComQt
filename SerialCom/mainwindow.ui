@@ -70,7 +70,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Pesan</string>
+     <string>Message</string>
     </property>
    </widget>
    <widget class="QPushButton" name="closePortBtn">
@@ -96,7 +96,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Kirim</string>
+     <string>Send</string>
     </property>
    </widget>
   </widget>
